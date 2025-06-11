@@ -7,8 +7,8 @@ This repository will contain a Python implementation of a 4x4 sliding tile puzzl
 1. **Setup (Completed)**: Initial project structure created with core game logic and a basic `tkinter` GUI.
 2. **Image Handling (Completed)**: Implemented uploading an image and splitting it into tiles used in the GUI.
 3. **Game Board Logic (Completed)**: Board is represented as a 2D array with shuffling and move validation.
-4. **User Interaction**: Create a basic GUI that displays the tiles, allows tile movement via mouse clicks, and checks for a winning configuration after each move.
-5. **Win State & Reset**: Display a win screen or message when the player solves the puzzle, then provide an option to upload a new image and start over.
+4. **User Interaction (Completed)**: Basic GUI shows the tiles, supports mouse-controlled moves, and checks for a winning configuration after each move.
+5. **Win State & Reset (Completed)**: When the puzzle is solved, a dialog offers to play again and upload a new image before the board is re-shuffled.
 6. **Enhancements**: Consider optional features such as move counters, timers, or a leaderboard.
 
 ## Development Notes
