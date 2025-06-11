@@ -4,7 +4,7 @@ This repository will contain a Python implementation of a 4x4 sliding tile puzzl
 
 ## Project Roadmap
 
-1. **Setup**: Create initial project structure with core game logic using Python. Decide on a simple GUI framework such as `tkinter` to keep the project lightweight.
+1. **Setup (Completed)**: Initial project structure created with core game logic and a basic `tkinter` GUI.
 2. **Image Handling**: Implement image upload support and a function to split the image into 4x4 tiles (15 tiles plus one empty slot).
 3. **Game Board Logic**: Represent the board as a 2D array and implement mechanics to shuffle tiles and determine valid moves (left, right, up, down from the empty space).
 4. **User Interaction**: Create a basic GUI that displays the tiles, allows tile movement via mouse clicks, and checks for a winning configuration after each move.
