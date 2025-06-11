@@ -26,3 +26,17 @@ def test_move_and_solve():
     assert not puzzle.is_solved()
     puzzle.move(puzzle.size - 1, puzzle.size - 1)
     assert puzzle.is_solved()
+
+
+def test_move_counter_resets_on_shuffle():
+    puzzle = SlidingPuzzle()
+    puzzle.shuffle()
+    assert puzzle.moves == 0
+    erow, ecol = puzzle._find_empty()
+    if erow > 0:
+        puzzle.move(erow - 1, ecol)
+    else:
+        puzzle.move(erow + 1, ecol)
+    assert puzzle.moves == 1
+    puzzle.shuffle()
+    assert puzzle.moves == 0
