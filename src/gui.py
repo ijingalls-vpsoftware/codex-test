@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from PIL import ImageTk
+from PIL import Image, ImageTk
 
 from .game import SlidingPuzzle
 from .image_utils import split_image_to_tiles
@@ -24,19 +24,28 @@ def main() -> None:
     tiles = []
     photo_tiles = {}
     tile_w = tile_h = 0
+    label_pad = 5
 
     def load_image(image_path: str) -> None:
         """Load ``image_path`` and create :mod:`PIL` image tiles."""
-        nonlocal tiles, photo_tiles, tile_w, tile_h
+        nonlocal tiles
         tiles = split_image_to_tiles(image_path, puzzle.size)
+
+    load_image(path)
+
+    def resize_tiles(tile_size: int) -> None:
+        nonlocal photo_tiles, tile_w, tile_h
+        tile_w = tile_h = tile_size
         photo_tiles = {
-            r * puzzle.size + c + 1: ImageTk.PhotoImage(tiles[r][c])
+            r * puzzle.size + c + 1: ImageTk.PhotoImage(
+                tiles[r][c].resize((tile_size, tile_size), Image.NEAREST)
+            )
             for r in range(puzzle.size)
             for c in range(puzzle.size)
         }
-        tile_w, tile_h = tiles[0][0].size
 
-    load_image(path)
+    resize_tiles(tiles[0][0].size[0])
+
 
     buttons = []
     move_label = tk.Label(root, text=f"Moves: {puzzle.moves}")
@@ -69,10 +78,8 @@ def main() -> None:
                 )
                 if new_path:
                     load_image(new_path)
-                    for r in range(puzzle.size):
-                        for c in range(puzzle.size):
-                            btn = buttons[r][c]
-                            btn.config(width=tile_w, height=tile_h)
+                    root.update_idletasks()
+                    resize_tiles(root.winfo_width() // puzzle.size)
                 puzzle.shuffle()
                 update_buttons()
 
@@ -97,6 +104,27 @@ def main() -> None:
             btn.grid(row=r, column=c, padx=1, pady=1)
             row.append(btn)
         buttons.append(row)
+
+    root.update_idletasks()
+    label_height = move_label.winfo_height() + label_pad
+
+    def on_resize(event: tk.Event) -> None:
+        if event.widget is not root:
+            return
+        board_size = min(event.width, event.height - label_height)
+        board_size = max(board_size, puzzle.size)
+        board_size -= board_size % puzzle.size
+        tile_size = board_size // puzzle.size
+        new_w = board_size
+        new_h = board_size + label_height
+        if root.winfo_width() != new_w or root.winfo_height() != new_h:
+            root.geometry(f"{new_w}x{new_h}")
+        resize_tiles(tile_size)
+        update_buttons()
+
+    root.bind("<Configure>", on_resize)
+    initial_size = tiles[0][0].size[0] * puzzle.size
+    root.geometry(f"{initial_size}x{initial_size + label_height}")
 
     root.mainloop()
 
