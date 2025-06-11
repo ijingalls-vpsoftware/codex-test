@@ -21,16 +21,24 @@ def main() -> None:
     if not path:
         return
 
-    # Load and split the selected image
-    tiles = split_image_to_tiles(path, puzzle.size)
-    photo_tiles = {
-        r * puzzle.size + c + 1: ImageTk.PhotoImage(tiles[r][c])
-        for r in range(puzzle.size)
-        for c in range(puzzle.size)
-    }
+    tiles = []
+    photo_tiles = {}
+    tile_w = tile_h = 0
+
+    def load_image(image_path: str) -> None:
+        """Load ``image_path`` and create :mod:`PIL` image tiles."""
+        nonlocal tiles, photo_tiles, tile_w, tile_h
+        tiles = split_image_to_tiles(image_path, puzzle.size)
+        photo_tiles = {
+            r * puzzle.size + c + 1: ImageTk.PhotoImage(tiles[r][c])
+            for r in range(puzzle.size)
+            for c in range(puzzle.size)
+        }
+        tile_w, tile_h = tiles[0][0].size
+
+    load_image(path)
 
     buttons = []
-    tile_w, tile_h = tiles[0][0].size
 
     def update_buttons():
         for r in range(puzzle.size):
@@ -46,7 +54,22 @@ def main() -> None:
         if puzzle.move(r, c):
             update_buttons()
             if puzzle.is_solved():
-                messagebox.showinfo("Congrats!", "You solved the puzzle!")
+                again = messagebox.askyesno(
+                    "Congrats!", "You solved the puzzle! Play again?"
+                )
+                if not again:
+                    root.quit()
+                    return
+                new_path = filedialog.askopenfilename(
+                    title="Select an image",
+                    filetypes=[("Image files", "*.png *.jpg *.jpeg *.gif")],
+                )
+                if new_path:
+                    load_image(new_path)
+                    for r in range(puzzle.size):
+                        for c in range(puzzle.size):
+                            btn = buttons[r][c]
+                            btn.config(width=tile_w, height=tile_h)
                 puzzle.shuffle()
                 update_buttons()
 
