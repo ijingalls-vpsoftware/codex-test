@@ -2,7 +2,18 @@ import random
 from typing import List, Tuple
 
 class SlidingPuzzle:
-    """Core game logic for a sliding tile puzzle."""
+    """Core game logic for a sliding tile puzzle.
+
+    Attributes
+    ----------
+    size: int
+        The dimension of the puzzle grid.
+    board: List[List[int]]
+        Current puzzle state where ``0`` represents the empty slot.
+    moves: int
+        Counter tracking how many valid moves have been made since the
+        last shuffle or reset.
+    """
 
     def __init__(self, size: int = 4):
         self.size = size
@@ -15,6 +26,7 @@ class SlidingPuzzle:
             for r in range(self.size)
         ]
         self.board[-1][-1] = 0  # empty slot
+        self.moves = 0
 
     def shuffle(self) -> None:
         """Shuffle the board tiles into a solvable configuration."""
@@ -29,6 +41,7 @@ class SlidingPuzzle:
             tiles[i * self.size : (i + 1) * self.size]
             for i in range(self.size)
         ]
+        self.moves = 0
 
     def _is_solvable(self, tiles: List[int]) -> bool:
         inv_count = 0
@@ -52,6 +65,7 @@ class SlidingPuzzle:
             self.board[row][col],
             self.board[erow][ecol],
         )
+        self.moves += 1
         return True
 
     def _find_empty(self) -> Tuple[int, int]:

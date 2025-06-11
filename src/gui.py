@@ -39,6 +39,8 @@ def main() -> None:
     load_image(path)
 
     buttons = []
+    move_label = tk.Label(root, text=f"Moves: {puzzle.moves}")
+    move_label.grid(row=puzzle.size, column=0, columnspan=puzzle.size, pady=(5, 0))
 
     def update_buttons():
         for r in range(puzzle.size):
@@ -49,6 +51,7 @@ def main() -> None:
                     btn.config(image="", text="")
                 else:
                     btn.config(image=photo_tiles[value], text="")
+        move_label.config(text=f"Moves: {puzzle.moves}")
 
     def on_click(r: int, c: int):
         if puzzle.move(r, c):
