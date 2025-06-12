@@ -14,7 +14,8 @@ def main() -> None:
 
     root = tk.Tk()
     root.title("Sliding Tile Puzzle")
-    window_size = puzzle.size * TILE_SIZE
+    # account for padding around each tile so the entire board fits
+    window_size = puzzle.size * (TILE_SIZE + 2)
     root.geometry(f"{window_size}x{window_size + 40}")
     root.resizable(False, False)
 
