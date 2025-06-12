@@ -1,6 +1,6 @@
 # Sliding Tile Puzzle Game
 
-This repository will contain a Python implementation of a 4x4 sliding tile puzzle. Users upload an image that is split into 16 equal tiles; the bottom-right tile will be empty. The game shuffles the tiles and allows users to slide pieces adjacent to the empty space. Once the original image is restored, a victory screen is shown, and the user can upload a new image to play again. The game window starts at a fixed size and tiles scale whenever the window is resized.
+This repository will contain a Python implementation of a 4x4 sliding tile puzzle. Users will upload an image that is split into 16 equal tiles; the bottom-right tile will be empty. The game shuffles the tiles and allows users to slide pieces adjacent to the empty space. Once the original image is restored, a victory screen is shown, and the user can upload a new image to play again.
 
 ## Project Roadmap
 
