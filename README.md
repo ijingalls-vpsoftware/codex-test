@@ -16,6 +16,8 @@ This repository will contain a Python implementation of a 4x4 sliding tile puzzl
 - Keep the code simple and organized. Start with a single module for the game logic, and another for the GUI.
 - Avoid third-party dependencies where possible. Standard library modules like `tkinter`, `random`, and `PIL` (from Pillow) should suffice.
 - Ensure image tiles are scaled to the same square size for consistent appearance.
+- The GUI window opens at a fixed resolution so the full board is always visible, and uploaded
+  images are scaled to fit this size.
 - Add comments and docstrings to clarify functions and classes for future contributors.
 - Include basic tests for the tile shuffle logic and winning-condition checks.
 

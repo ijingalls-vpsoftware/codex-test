@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from PIL import ImageTk
 
+TILE_SIZE = 100
+
 from .game import SlidingPuzzle
 from .image_utils import split_image_to_tiles
 
@@ -12,6 +14,9 @@ def main() -> None:
 
     root = tk.Tk()
     root.title("Sliding Tile Puzzle")
+    window_size = puzzle.size * TILE_SIZE
+    root.geometry(f"{window_size}x{window_size + 40}")
+    root.resizable(False, False)
 
     # Ask user to select an image to use for the puzzle tiles
     path = filedialog.askopenfilename(
@@ -23,12 +28,12 @@ def main() -> None:
 
     tiles = []
     photo_tiles = {}
-    tile_w = tile_h = 0
+    tile_w = tile_h = TILE_SIZE
 
     def load_image(image_path: str) -> None:
         """Load ``image_path`` and create :mod:`PIL` image tiles."""
         nonlocal tiles, photo_tiles, tile_w, tile_h
-        tiles = split_image_to_tiles(image_path, puzzle.size)
+        tiles = split_image_to_tiles(image_path, puzzle.size, TILE_SIZE)
         photo_tiles = {
             r * puzzle.size + c + 1: ImageTk.PhotoImage(tiles[r][c])
             for r in range(puzzle.size)
